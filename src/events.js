@@ -33,8 +33,8 @@ const callback = (evt, appId, info, annotation, token, cb) => {
 export const onEvent = (evt, appId, token, cb) => {
   log('Event received...');
   log(evt);
-  var info = evt;
-  var annotation = evt;
+  let info = evt;
+  let annotation = evt;
   // callback
   callback(evt, appId, info, annotation, token, cb);
 };

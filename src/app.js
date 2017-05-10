@@ -17,6 +17,11 @@ import debug from 'debug';
 // Debug log
 const log = debug('watsonwork-debug-app');
 
+// Custom message formatter
+const customMessage = (msg) => ({
+  text: util.format(msg)
+});
+
 // Handle events sent to the annotation Webhook at /webhook
 export const webhook = (appId, store, token) =>
 (req, res) => {
@@ -46,12 +51,11 @@ export const webhook = (appId, store, token) =>
           // demo of states being saved
           // astate has a variable named "hasSentAlready", undefined initially
           if(astate.hasSentAlready)
-          {
             send(customMessage('I have already received my first event!'));
-          }
+
+          // have "hasSentAlready" hasn't been set yet,
+          // send message to Watson Workspace
           else {
-            // have "hasSentAlready" hasn't been set yet,
-            // send message to Watson Workspace
             send(customMessage('Hello! I just received my first event!'));
             astate.hasSentAlready = true;
           }
@@ -62,11 +66,6 @@ export const webhook = (appId, store, token) =>
       });
 
 };
-
-// Custom message formatter
-const customMessage = (msg) => ({
-  text: util.format(msg)
-});
 
 
     // Create Express Web app
