@@ -49,7 +49,22 @@ When the user sends their second message to Watson Workspace, this astate is pas
 
 
 #### src/events.js
+```
+// Return the event identified
+export const onEvent = (evt, appId, token, cb) => {
+  let info = evt.content;
+  let annotation = evt;
 
+  // only respond to message-created events
+  if(evt.type === 'message-created') {
+    log(evt);
+    // callback
+    callback(evt, appId, info, annotation, token, cb);
+  }
+};
+```
+
+Here, on any event, the event type is check and confirmed to be a 'message-created' event before the callback function is called. This callback function essentially leads to the function *events.onEvent()* in *src/app.js*.
 
 ## Setup
 

@@ -21,8 +21,8 @@ const callback = (evt, appId, info, annotation, token, cb) => {
 
     // Return the extracted info, annotation, annotated message
     // and the user who sent it
-    log('Message %s',
-      util.inspect(message, { colors: debug.useColors(), depth: 10 }));
+    // log('Message %s',
+      // util.inspect(message, { colors: debug.useColors(), depth: 10 }));
     cb(info, annotation, message, message.createdBy);
   });
 };
@@ -30,10 +30,13 @@ const callback = (evt, appId, info, annotation, token, cb) => {
 
 // Return the event identified
 export const onEvent = (evt, appId, token, cb) => {
-  log('Event received...');
-  log(evt);
-  let info = evt;
+  let info = evt.content;
   let annotation = evt;
-  // callback
-  callback(evt, appId, info, annotation, token, cb);
+
+  // only respond to message-created events
+  if(evt.type === 'message-created') {
+    log(evt);
+    // callback
+    callback(evt, appId, info, annotation, token, cb);
+  }
 };
