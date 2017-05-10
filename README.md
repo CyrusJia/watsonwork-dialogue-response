@@ -3,7 +3,7 @@
 A sample Watson Work app to demonstrate event listening and state saving
 functionality.
 
-## Files of interested
+## Files of interest
 
 #### src/app.js
 
