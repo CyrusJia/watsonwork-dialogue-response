@@ -1,0 +1,7 @@
+.cf/**
+lib/**
+node_modules/**
+*.log
+server.key
+server.crt
+tmp/**

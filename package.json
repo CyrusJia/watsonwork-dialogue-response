@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "watsonwork-base",
   "description": "A sample app that listens to messages posted to a space in IBM Watson Workspace",
   "license": "Apache-2.0",
@@ -10,11 +11,29 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/watsonwork/watsonwork-base.git"
+=======
+  "name": "watsonwork-weather",
+  "description": "A sample app that listens to messages posted to a space in IBM Watson Workspace and implements actions that return the weather",
+  "license": "Apache-2.0",
+  "version": "0.0.1",
+  "homepage": "https://github.com/watsonwork/watsonwork-weather",
+  "bugs": {
+    "url": "https://github.com/watsonwork/watsonwork-weather"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/watsonwork/watsonwork-weather.git"
+>>>>>>> upstream/master
   },
   "keywords": [
     "watson",
     "work",
+<<<<<<< HEAD
     "sample"
+=======
+    "sample",
+    "weather"
+>>>>>>> upstream/master
   ],
   "files": [
     ".npmrc",

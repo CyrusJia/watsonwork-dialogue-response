@@ -1,5 +1,9 @@
 // A sample app that listens to messages posted to a space in IBM
+<<<<<<< HEAD
 // Watson Workspace.
+=======
+// Watson Workspace and implements actions that return the Weather.
+>>>>>>> upstream/master
 
 // Test the happy path
 
@@ -13,8 +17,17 @@
 //   post: (uri, opt, cb) => postspy(uri, opt, cb)
 // };
 
+<<<<<<< HEAD
 // Load the app
 require('../app');
 
 describe('watsonwork-base', () => {
 });
+=======
+// Load the Weather app
+require('../app');
+
+describe('watsonwork-weather', () => {
+});
+
+>>>>>>> upstream/master

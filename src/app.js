@@ -43,15 +43,18 @@ export const webhook = (appId, store, token) =>
         // Run with any previously saved action state
         state.run(spaceId, user.id, store, (astate, cb) => {
 
-          // state demonstration
-          // if(astate.hasSentAlready)
-          // {
-          //   send(customMessage('I have already received my first event!'));
-          // }
-          // else {
-          //   send(customMessage('Hello! I just received my first event!'));
-          //   astate.hasSentAlready = true;
-          // }
+          // demo of states being saved
+          // astate has a variable named "hasSentAlready", undefined initially
+          if(astate.hasSentAlready)
+          {
+            send(customMessage('I have already received my first event!'));
+          }
+          else {
+            // have "hasSentAlready" hasn't been set yet,
+            // send message to Watson Workspace
+            send(customMessage('Hello! I just received my first event!'));
+            astate.hasSentAlready = true;
+          }
 
           // Return the new action state
           cb(null, astate);

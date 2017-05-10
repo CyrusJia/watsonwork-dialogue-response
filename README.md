@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # watsonwork-weather
+=======
+# watsonwork-weather-intent-based
+>>>>>>> upstream/master
 
 [![Build Status](https://travis-ci.org/watsonwork/watsonwork-weather.svg)](https://travis-ci.org/watsonwork/watsonwork-weather)
 
@@ -19,8 +23,12 @@ to the conversation;
 * how to use the Watson Work Services and Watson Conversation cognitive
 capabilities to understand natural language, identify domain specific user
 intents, recognize entities such as locations and cities for example, and
+<<<<<<< HEAD
 determine application actions based on previously identified intents and
 entities;
+=======
+act based on previously identified intents and entities;
+>>>>>>> upstream/master
 * how to handle a multi-turn conversation and keep track of what's being
 said across multiple messages.
 
@@ -260,7 +268,11 @@ named **Examples**, then open the **Apps** tab for that space and add the
 In the **Examples** space, say "*Is it raining in San Francisco?*".
 
 The Weather app will respond with a message asking you to confirm that you're
+<<<<<<< HEAD
 interested in the weather in San Francisco: 
+=======
+interested in the weather in San Francisco:
+>>>>>>> upstream/master
 "*Hey [your name], I think you're looking for the weather conditions in
 San Francisco. Is that correct?*".
 
@@ -300,7 +312,11 @@ src/          - Javascript sources
 
 The app leverages the Watson Work Services and Watson Conversation
 cognitive capabilities to understand natural language intents, entities,
+<<<<<<< HEAD
 and determine the necessary app actions.
+=======
+and act based on previous and current entities and intents.
+>>>>>>> upstream/master
 
 It uses the [Watson Work OAuth API](https://workspace.ibm.com/developer/docs)
 to authenticate and get an OAuth token.
@@ -316,4 +332,7 @@ to send back weather information messages to the space.
 ## How can I contribute?
 
 Pull requests welcome!
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
