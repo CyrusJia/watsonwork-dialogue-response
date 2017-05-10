@@ -41,7 +41,7 @@ export const webhook = (appId, store, token) =>
     // be sent asynchronously
   res.status(201).end();
 
-    // Handle events
+  // Handle events
   events.onEvent(req.body, appId, token,
       (message, user) => {
 
@@ -50,14 +50,14 @@ export const webhook = (appId, store, token) =>
 
           // demo of states being saved
           // astate has a variable named "hasSentAlready", undefined initially
-          if(astate.hasSentAlready)
+          if(astate.userHasSentMessageAlready)
             send(customMessage('I have already received my first event!'));
 
           // have "hasSentAlready" hasn't been set yet,
           // send message to Watson Workspace
           else {
             send(customMessage('Hello! I just received my first event!'));
-            astate.hasSentAlready = true;
+            astate.userHasSentMessageAlready = true;
           }
 
           // Return the new action state

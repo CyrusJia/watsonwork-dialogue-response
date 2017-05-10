@@ -15,7 +15,6 @@ const callback = (evt, appId, info, annotation, token, cb) => {
   messages.message(evt.messageId, token(), (err, message) => {
     if(err)
       return;
-
     // Ignore messages from the app itself
     if(message.createdBy.id === appId)
       return;
