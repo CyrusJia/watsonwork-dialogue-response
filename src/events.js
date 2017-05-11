@@ -31,7 +31,7 @@ const callback = (evt, appId, info, annotation, token, cb) => {
 
 // Return the event identified
 export const onEvent = (evt, appId, token, cb) => {
-  let info = evt;
+  let info = evt.content;
   let annotation = evt;
 
   // callback
