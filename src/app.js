@@ -54,7 +54,8 @@ export const webhook = (appId, store, token) =>
           if(JSON.parse(message.annotationPayload).payload) {
             let payload = JSON.parse(message.annotationPayload).payload;
             let text = JSON.parse(payload).text[0];
-            send(customMessage(text));
+            if(text)
+              send(customMessage(text));
           }
 
           // Return the new action state

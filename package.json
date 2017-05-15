@@ -11,13 +11,6 @@
     "type": "git",
     "url": "https://github.com/watsonwork/watsonwork-base.git"
   },
-<<<<<<< HEAD
-=======
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/watsonwork/watsonwork-weather.git"
-  },
->>>>>>> upstream/master
   "keywords": [
     "watson",
     "work",

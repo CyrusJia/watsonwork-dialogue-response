@@ -1,7 +1,7 @@
 // Utility functions to work with Watson Work Webhook events
 
 import * as messages from './messages';
-// import * as util from 'util';
+import * as util from 'util';
 import debug from 'debug';
 
 // Setup debug log
@@ -31,9 +31,9 @@ const callback = (evt, appId, info, annotation, token, cb) => {
 
 // Return the event identified
 export const onEvent = (evt, appId, token, cb) => {
-  let info = evt.content;
+  let info = evt;
   let annotation = evt;
-
+  log(evt);
   // callback
   if(evt.type === 'message-annotation-added')
     callback(evt, appId, info, annotation, token, cb);

@@ -1,76 +1,52 @@
-<<<<<<< HEAD
 # Watsonwork-Dialogue-Response
 
-A demo of responding to Watson Workspace via a hard coded message
-within Watson Conversation, upon triggering an intent.
-=======
-# Watsonwork Event Listening and State Saving
 
-A sample Watson Work app to demonstrate event listening and state saving
-functionality.
+A sample Watson Work cognitive app that listens to messages posted to a
+space in IBM Watson Workspace, understands the natural language conversation
+happening in the space and responds with hard coded messages in Watson Conversation.
 
-## Files of interest
+The Watson Work platform provides **spaces** for people to exchange
+**messages** in conversations. This sample app shows the following
+aspects of a Watson Work cognitive application:
 
-#### src/app.js
+* how to implement a Watson Work application and use Watson Work APIs using
+Node.js;
+* how to authenticate and obtain an OAuth token, listen to a conversation
+in a space, receive messages on a Webhook endpoint, and send messages back
+to the conversation;
+* how to use the Watson Work Services and Watson Conversation cognitive
+capabilities to understand natural language, identify domain specific user
+intents, and respond based on specific triggers identified in Watson Conversation
 
-Starting on line 44, we see
+## Files of Interest
+
+### src/app.js
 
 ```
 // Handle events
 events.onEvent(req.body, appId, token,
-    (message, user) => {
+  (message, user) => {
 
-      // Run with any previously saved action state
-      state.run(spaceId, user.id, store, (astate, cb) => {
+    // Run with any previously saved action state
+    state.run(spaceId, user.id, store, (astate, cb) => {
 
-        // demo of states being saved
-        // astate has a variable named "hasSentAlready", undefined initially
-        if(astate.hasSentAlready)
-          send(customMessage('I have already received my first event!'));
+      // Returns the dialogue message from Watson Conversation,
+      // if there exists one.
+      if(JSON.parse(message.annotationPayload).payload) {
+        let payload = JSON.parse(message.annotationPayload).payload;
+        let text = JSON.parse(payload).text[0];
+        send(customMessage(text));
+      }
 
-        // have "hasSentAlready" hasn't been set yet,
-        // send message to Watson Workspace
-        else {
-          send(customMessage('Hello! I just received my first event!'));
-          astate.hasSentAlready = true;
-        }
-
-        // Return the new action state
-        cb(null, astate);
-      });
+      // Return the new action state
+      cb(null, astate);
     });
+  });
 
-```
-
-This function is called upon any event occurring within the space. The events listened to depends on the events selected when setting up the Webhook. In this example, we choose a webhook that responds to *message-created* events, so this code is ran every time a message is created in the Watson Workspace.
-
-*send()* sends a message from the app to the Watson Workspace, allowing the app to chat with the users within the Watson Workspace.
-
-*state.run()* is a function which calls up the previous state which contains past information. Think of it as this chat app having memory or being context aware.
-
-The name of the state is called *astate*. Initially, when a user sends their first message to Watson Workspace, *userHasSentMessageAlready* is undefined, and the if condition is not met. The app sends "*Hello! I have just received my first event!*"
-astate.userHasSentMessageAlready is defined and set to true.
-
-When the user sends their second message to Watson Workspace, this astate is passed into *state.run()* and this time, *astate.hasSentAlready* was already set to true, and the app sends "*I have already received my first event!*" to Watson Workspace.
-
-
-#### src/events.js
-```
-// Return the event identified
-export const onEvent = (evt, appId, token, cb) => {
-  let info = evt.content;
-  let annotation = evt;
-
-  // only respond to message-created events
-  if(evt.type === 'message-created') {
-    log(evt);
-    // callback
-    callback(evt, appId, info, annotation, token, cb);
-  }
 };
 ```
 
-Here, on any event, the event type is check and confirmed to be a 'message-created' event before the callback function is called. This callback function essentially leads to the function *events.onEvent()* in *src/app.js*.
+We first check if there is a payload with text being returned. This text will exist if there is a defined response in Watson Conversation's dialogue tab, associated with an intent that has been triggered. This is all customizable.
 
 ## Setup
 
@@ -104,12 +80,31 @@ In a terminal window, do the following:
 export DEBUG=watsonwork-*
 
 # Get the code
-git clone https://github.com/CyrusJia/watsonwork-states-and-events
+git clone https://github.com/CyrusJia/watsonwork-dialogue-response
 
 # Build the app
-cd watsonwork-states-and-events
+cd watsonwork-dialogue-response
 npm run build
 ```
+### Configuring the Bluemix Watson Conversation service
+
+The sample Weather app uses Watson Conversation to understand natural
+language and provide a natural language conversational interface, so
+you need to configure a Watson Conversation Bluemix service for it.
+
+Go to the
+[Bluemix Watson Dashboard](https://console.ng.bluemix.net/dashboard/watson)
+and create a Watson Conversation service.
+
+Note the Watson Conversation service user name and password, as you will
+need to configure the Weather app with them.
+
+From the Watson Conversation service page click **Launch tool** to open
+the Watson Conversation tooling, and import **watson.json** into a new
+Watson Conversation workspace.
+
+Note the Watson Conversation workspace id, as you will need to configure the
+Weather app with it.
 
 ### Registering the app with Watson Work
 
@@ -260,7 +255,9 @@ You're now ready to chat with the sample app!
 Go to [Watson Workspace](https://workspace.ibm.com) and create a space
 named **Examples**, then open the **Apps** tab for that space and add the app to it.
 
-In the **Examples** space, type any message you want. The app should reply with "*Hello! I just received my first event!*" Any subsequent message you type should be faced with the response: "*I have already received my first event!*"
+In the **Examples** space, type any message you want relevant to a defined intent or trigger in Watson Conversation. The app should then reply with the response you specified in Watson Conversation Dialogue.
+
+If you imported **watson.json** earlier, write something related to wanting to receive cat facts. The bot should reply with a cat fact of the day.
 
 ## Project layout
 
@@ -270,6 +267,7 @@ The sample project source tree is organized as follows:
 README.md     - this README
 package.json  - Node.js package definition
 watson.json   - Watson Conversation training configuration
+
 
 src/          - Javascript sources
 
@@ -304,4 +302,3 @@ to send messages to the space.
 ## How can I contribute?
 
 Pull requests welcome!
->>>>>>> upstream/master
