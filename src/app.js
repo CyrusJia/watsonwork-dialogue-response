@@ -65,70 +65,70 @@ export const webhook = (appId, store, token) =>
 
 };
 
-    // Create Express Web app
+// Create Express Web app
 export const webapp =
-    (appId, secret, whsecret, store, cb) => {
-      // Authenticate the app and get an OAuth token
-      oauth.run(appId, secret, (err, token) => {
-        if(err) {
-          cb(err);
-          return;
-        }
+  (appId, secret, whsecret, store, cb) => {
+    // Authenticate the app and get an OAuth token
+    oauth.run(appId, secret, (err, token) => {
+      if(err) {
+        cb(err);
+        return;
+      }
 
-        // Return the Express Web app
-        cb(null, express()
+      // Return the Express Web app
+      cb(null, express()
 
         // Configure Express route for the app Webhook
         .post('/webhook',
 
-        // Verify Watson Work request signature and parse request body
-        bparser.json({
-          type: '*/*',
-          verify: sign.verify(whsecret)
-        }),
+          // Verify Watson Work request signature and parse request body
+          bparser.json({
+            type: '*/*',
+            verify: sign.verify(whsecret)
+          }),
 
-        // Handle Watson Work Webhook challenge requests
-        sign.challenge(whsecret),
+          // Handle Watson Work Webhook challenge requests
+          sign.challenge(whsecret),
 
-        // Handle Watson Work Webhook events
-        webhook(appId, state.store(store), token)));
-      });
-    };
+          // Handle Watson Work Webhook events
+          webhook(appId, state.store(store), token)));
+    });
+  };
 
-    // App main entry point
+// App main entry point
 const main = (argv, env, cb) => {
-      // Create Express Web app
+  // Create Express Web app
   webapp(
-        env.APP_ID,
-        env.APP_SECRET,
-        env.WEBHOOK_SECRET,
-        env.STORE,
-        (err, app) => {
+    env.APP_ID,
+    env.APP_SECRET,
+    env.WEBHOOK_SECRET,
+    env.STORE,
+    (err, app) => {
+      if(err) {
+        cb(err);
+        return;
+      }
+
+      if(env.PORT) {
+        // In a hosting environment like Bluemix for example, HTTPS is
+        // handled by a reverse proxy in front of the app, just listen
+        // on the configured HTTP port
+        log('HTTP server listening on port %d', env.PORT);
+        http.createServer(app).listen(env.PORT, cb);
+      }
+
+      else
+        // Listen on the configured HTTPS port, default to 443
+        ssl.conf(env, (err, conf) => {
           if(err) {
             cb(err);
             return;
           }
-
-          if(env.PORT) {
-            // In a hosting environment like Bluemix for example, HTTPS is
-            // handled by a reverse proxy in front of the app, just listen
-            // on the configured HTTP port
-            log('HTTP server listening on port %d', env.PORT);
-            http.createServer(app).listen(env.PORT, cb);
-          }
-
-          else
-          // Listen on the configured HTTPS port, default to 443
-          ssl.conf(env, (err, conf) => {
-            if(err) {
-              cb(err);
-              return;
-            }
-            const port = env.SSLPORT || 443;
-            log('HTTPS server listening on port %d', port);
-            https.createServer(conf, app).listen(port, cb);
-          });
+          const port = env.SSLPORT || 443;
+          log('HTTPS server listening on port %d', port);
+          https.createServer(conf, app).listen(port, cb);
         });
+    });
 };
 
 if (require.main === module)

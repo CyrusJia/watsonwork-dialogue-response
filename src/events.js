@@ -22,8 +22,8 @@ const callback = (evt, appId, info, annotation, token, cb) => {
 
     // Return the extracted info, annotation, annotated message
     // and the user who sent it
-    // log('Message %s',
-    //   util.inspect(message, { colors: debug.useColors(), depth: 10 }));
+    log('Message %s',
+      util.inspect(message, { colors: debug.useColors(), depth: 10 }));
     cb(info, annotation, message, message.createdBy);
   });
 };
